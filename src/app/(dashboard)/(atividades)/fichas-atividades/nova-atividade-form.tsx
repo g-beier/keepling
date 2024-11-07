@@ -71,6 +71,9 @@ export default function FormNovaAtividade() {
       descricao: "",
       tags: [],
     },
+    resetOptions: {
+      keepErrors: false,
+    },
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
@@ -93,7 +96,13 @@ export default function FormNovaAtividade() {
   }
 
   return (
-    <Sheet open={open} onOpenChange={setOpen}>
+    <Sheet
+      open={open}
+      onOpenChange={(v) => {
+        setOpen(v);
+        novaAtividadeForm.clearErrors();
+      }}
+    >
       <SheetTrigger asChild>
         <Button>Nova Atividade</Button>
       </SheetTrigger>
@@ -103,7 +112,7 @@ export default function FormNovaAtividade() {
             <SheetHeader>
               <SheetTitle>Nova Atividade</SheetTitle>
             </SheetHeader>
-            <div className="space-y-8">
+            <div className="space-y-8 mt-8">
               <FormField
                 control={novaAtividadeForm.control}
                 name="titulo"
@@ -172,15 +181,26 @@ export default function FormNovaAtividade() {
                 )}
               />
             </div>
-            <SheetFooter className="mt-4">
+            <SheetFooter className="mt-4 sm:justify-between">
+              <Button
+                type="reset"
+                variant="outline"
+                className="hover:bg-destructive hover:text-destructive-foreground border-destructive text-destructive-foreground"
+                onClick={(e) => {
+                  e.preventDefault();
+                  novaAtividadeForm.reset();
+                }}
+              >
+                Limpar campos
+              </Button>
               <Button
                 type="submit"
                 disabled={!novaAtividadeForm.getValues().titulo}
               >
                 Enviar
               </Button>
-              <Toaster />
             </SheetFooter>
+            <Toaster />
           </form>
         </Form>
       </SheetContent>
