@@ -24,7 +24,6 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       const novaAtividade = req.body;
       if (
         !req.body.titulo || 
-        !req.body.tipo || 
         !req.body.descricao || 
         !req.body.tags || 
         !req.body.resumo
