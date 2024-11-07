@@ -2,19 +2,19 @@
 
 import * as React from "react";
 import {
-  AudioWaveform,
   BookOpen,
   Bot,
   Frame,
-  GalleryVerticalEnd,
   Map,
   SquareTerminal,
   Cross,
   Timer,
+  User,
+  PawPrint,
+  Tent,
 } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
-import { NavProjects } from "@/components/nav-projects";
 import { NavUser } from "@/components/nav-user";
 import { TeamSwitcher } from "@/components/team-switcher";
 import {
@@ -35,32 +35,50 @@ const data = {
   teams: [
     {
       name: "Alcateia Albert Schweitzer",
-      logo: GalleryVerticalEnd,
+      logo: PawPrint,
       plan: "Akelá",
     },
     {
       name: "Tropa Escoteira Schweitzer",
-      logo: AudioWaveform,
+      logo: Tent,
       plan: "Instrutor",
     },
   ],
   navMain: [
     {
-      title: "Atividades",
-      url: "#",
-      icon: SquareTerminal,
-      isActive: true,
+      title: "Dados pessoais",
+      url: "/perfil",
+      icon: User,
       items: [
         {
-          title: "Calendário",
-          url: "#",
+          title: "Dados básicos",
+          url: "/perfil/dados-basicos",
+          icon: Frame,
         },
         {
-          title: "Atividades especiais",
-          url: "#",
+          title: "Histórico de atividades",
+          url: "/perfil/historico",
+          icon: Timer,
         },
         {
-          title: "Eventos",
+          title: "Progressão",
+          url: "/perfil/progressao",
+          icon: Map,
+        },
+        {
+          title: "Ficha médica",
+          url: "/perfil/ficha-medica",
+          icon: Cross,
+        },
+      ],
+    },
+    {
+      title: "Unidade Escoteira Local",
+      url: "/unidade-local",
+      icon: BookOpen,
+      items: [
+        {
+          title: "Seções",
           url: "#",
         },
       ],
@@ -81,49 +99,24 @@ const data = {
       ],
     },
     {
-      title: "Unidade Escoteira Local",
-      url: "#",
-      icon: BookOpen,
+      title: "Atividades",
+      url: "",
+      icon: SquareTerminal,
       items: [
+        { title: "Fichas de atividade", url: "/fichas-atividades" },
         {
-          title: "Introduction",
+          title: "Calendário",
           url: "#",
         },
         {
-          title: "Get Started",
+          title: "Atividades especiais",
           url: "#",
         },
         {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
+          title: "Eventos",
           url: "#",
         },
       ],
-    },
-  ],
-  personal: [
-    {
-      name: "Informações pessoais",
-      url: "#",
-      icon: Frame,
-    },
-    {
-      name: "Histórico de atividades",
-      url: "#",
-      icon: Timer,
-    },
-    {
-      name: "Progressão",
-      url: "#",
-      icon: Map,
-    },
-    {
-      name: "Ficha médica",
-      url: "#",
-      icon: Cross,
     },
   ],
 };
@@ -135,7 +128,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <TeamSwitcher teams={data.teams} />
       </SidebarHeader>
       <SidebarContent>
-        <NavProjects projects={data.personal} />
         <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarFooter>

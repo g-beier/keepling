@@ -6,7 +6,7 @@ function getTags(tipo: string) {
 
   if (tipo === "todos") return tags;
 
-  return tags.filter((tag: any) => tag.tipo === tipo);
+  return tags.filter((tag) => tag.tipo === tipo);
 }
 
 export default function handler(req: NextApiRequest, res: NextApiResponse) {
