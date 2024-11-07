@@ -26,10 +26,6 @@ export default function Layout({ children }: { children: ReactNode }) {
               <BreadcrumbItem>
                 <BreadcrumbPage>Atividades</BreadcrumbPage>
               </BreadcrumbItem>
-              <BreadcrumbSeparator className="hidden md:block" />
-              <BreadcrumbItem>
-                <BreadcrumbPage>Calendário</BreadcrumbPage>
-              </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
         </div>
