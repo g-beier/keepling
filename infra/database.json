@@ -42,37 +42,37 @@
         {
           "id": "1",
           "descricao": "Promove o cuidado com a saúde e o bem-estar por meio de atividades físicas e incentivo a um estilo de vida ativo.",
-          "tipo": "area_desenvolvimento",
+          "tipo": "desenvolvimento",
           "titulo": "Físico"
         },
         {
           "id": "2",
           "descricao": "Promove o desenvolvimento do raciocínio, curiosidade e busca por conhecimento.",
-          "tipo": "area_desenvolvimento",
+          "tipo": "desenvolvimento",
           "titulo": "Intelectual"
         },
         {
           "id": "3",
           "descricao": "Estimula a convivência, empatia e trabalho em equipe, fortalecendo vínculos.",
-          "tipo": "area_desenvolvimento",
+          "tipo": "desenvolvimento",
           "titulo": "Social"
         },
         {
           "id": "4",
           "descricao": "Ajuda a identificar e expressar emoções, construindo autoconfiança e autoestima.",
-          "tipo": "area_desenvolvimento",
+          "tipo": "desenvolvimento",
           "titulo": "Afetivo"
         },
         {
           "id": "5",
           "descricao": "Trabalha valores e ética, incentivando decisões conscientes e responsabilidade.",
-          "tipo": "area_desenvolvimento",
+          "tipo": "desenvolvimento",
           "titulo": "Caráter"
         },
         {
           "id": "6",
           "descricao": "Conecta com valores pessoais e espirituais, respeitando diferentes crenças e reflexões sobre o propósito pessoal e a valorização da vida.",
-          "tipo": "area_desenvolvimento",
+          "tipo": "desenvolvimento",
           "titulo": "Espiritual"
         },
         {
