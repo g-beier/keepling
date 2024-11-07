@@ -22,6 +22,16 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import {
+  Dialog,
+  DialogHeader,
+  DialogOverlay,
+  DialogPortal,
+  DialogTrigger,
+  DialogContent,
+  DialogDescription,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { ToggleGroup, ToggleGroupItem } from "@/components/ui/toggle-group";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
@@ -42,14 +52,21 @@ const novaAtividadeSchema = z.object({
 
 export default function Page() {
   const [atividades, setAtividades] = useState<
-    { tags: string[]; id: string; titulo: string }[]
+    {
+      tags: string[];
+      id: string;
+      titulo: string;
+      resumo: string;
+      descricao: string;
+    }[]
   >([]);
-  const [tags, setTags] = useState<{ titulo: string; id: number }[]>([]);
+
+  const [tags, setTags] = useState<{ titulo: string; id: string }[]>([]);
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
   const atividadesFiltradas = atividades.filter((atv) =>
     selectedTags.length > 0
-      ? selectedTags.some((tag) => atv?.tags?.includes(tag))
+      ? selectedTags.every((tag) => atv?.tags?.includes(tag))
       : true
   );
 
@@ -66,16 +83,25 @@ export default function Page() {
   const handleSubmitNovaAtividade = (
     values: z.infer<typeof novaAtividadeSchema>
   ) => {
-    console.log(values);
+    fetch("api/v1/activity_management", {
+      method: "POST",
+      body: JSON.stringify(values),
+    })
+      .then((response) => response.json())
+      .then((data) => setAtividades(data));
   };
 
   useEffect(() => {
-    fetch("/api/v1/activity_managament")
+    fetch("/api/v1/tags?tipo=todos")
       .then((response) => response.json())
       .then((data) => {
-        setTags(data[0].atividade.tags);
-        setAtividades(data[0].atividade["todas-atividades"]);
+        setTags(data);
       })
+      .catch((err) => console.error(err));
+
+    fetch("/api/v1/activity_management")
+      .then((response) => response.json())
+      .then((data) => setAtividades(data))
       .catch((err) => console.error(err));
   }, []);
 
@@ -110,6 +136,19 @@ export default function Page() {
                         <FormLabel>Título</FormLabel>
                         <FormControl>
                           <Input {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={novaAtividadeForm.control}
+                    name="resumo"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Resumo</FormLabel>
+                        <FormControl>
+                          <Textarea {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -177,6 +216,7 @@ export default function Page() {
       </div>
       <ToggleGroup
         type="multiple"
+        className="flex-wrap my-2"
         value={selectedTags}
         onValueChange={setSelectedTags}
       >
@@ -192,9 +232,42 @@ export default function Page() {
       </ToggleGroup>
       <div>
         {atividadesFiltradas.length ? (
-          atividadesFiltradas.map((atv) => (
-            <span key={atv?.id}>{atv?.titulo}</span>
-          ))
+          <div className="grid grid-cols-4 gap-2 group">
+            {atividadesFiltradas.map((atv) => (
+              <Dialog key={atv?.id}>
+                <DialogTrigger>
+                  <div className="p-2 border rounded-sm bg-muted border-muted-foreground text-primary">
+                    <span className="font-semibold">{atv?.titulo}</span>
+                  </div>
+                </DialogTrigger>
+                <DialogPortal>
+                  <DialogOverlay />
+                  <DialogContent>
+                    <DialogHeader>
+                      <DialogTitle>{atv.titulo}</DialogTitle>
+                      <DialogDescription className="text-primary">
+                        {atv.resumo}
+                      </DialogDescription>
+                    </DialogHeader>
+                    <div>
+                      <p>{atv.descricao}</p>
+                      <div className="inline-flex gap-2 flex-wrap">
+                        {atv.tags &&
+                          atv.tags.map((tagId) => (
+                            <span
+                              key={tagId}
+                              className="inline-block px-2 py-0.5 bg-secondary-foreground rounded-sm text-secondary"
+                            >
+                              {tags?.find((t) => t.id === tagId)?.titulo}
+                            </span>
+                          ))}
+                      </div>
+                    </div>
+                  </DialogContent>
+                </DialogPortal>
+              </Dialog>
+            ))}
+          </div>
         ) : (
           <span>Não encontramos atividades com estes filtros.</span>
         )}
@@ -202,12 +275,3 @@ export default function Page() {
     </div>
   );
 }
-
-/* <div>
-<h1>Filtros</h1>
-
-</div>
-<div className="flex gap-2 flex-col">
-<h1>Lista</h1>
-
-*/
