@@ -7,7 +7,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const { id } = req.query;
 
   switch (method) {
-    case 'GET':
+    case "GET":
       if (id) {
         const atividadePeloId = atividade.find((item) => item.id === id);
         if (atividadePeloId) {
@@ -20,13 +20,14 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       }
       break;
 
-    case 'POST': // Todo - Controlar o conteúdo do body
-      const novaAtividade = req.body;
+    case "POST": // Todo - Controlar o conteúdo do body
+      const novaAtividade = JSON.parse(req.body);
+      console.log(novaAtividade);
       if (
-        !req.body.titulo || 
-        !req.body.descricao || 
-        !req.body.tags || 
-        !req.body.resumo
+        !novaAtividade.titulo ||
+        !novaAtividade.descricao ||
+        !novaAtividade.tags ||
+        !novaAtividade.resumo
       ) {
         return res.status(400).json({ message: "Parâmetros faltantes" });
       }
@@ -36,7 +37,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       res.status(201).json(novaAtividade);
       break;
 
-    case 'PUT': // Todo - Controlar o conteúdo do body
+    case "PUT": // Todo - Controlar o conteúdo do body
       if (id) {
         const index = atividade.findIndex((item) => item.id === id);
         if (index !== -1) {
@@ -50,7 +51,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       }
       break;
 
-    case 'DELETE':
+    case "DELETE":
       if (id) {
         const index = atividade.findIndex((item) => item.id === id);
         if (index !== -1) {
@@ -65,7 +66,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
       break;
 
     default:
-      res.setHeader('Allow', ['GET', 'POST', 'PUT', 'DELETE']);
+      res.setHeader("Allow", ["GET", "POST", "PUT", "DELETE"]);
       res.status(405).end(`Method ${method} Not Allowed`);
   }
 }
