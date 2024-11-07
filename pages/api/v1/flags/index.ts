@@ -4,7 +4,7 @@ import database from "../../../../infra/database.json";
 function getTags(tipo: string) {
   const tags = database[0].atividade.tags;
 
-  if (tipo === "all") return tags;
+  if (tipo === "todos") return tags;
 
   return tags.filter((tag: any) => tag.tipo === tipo);
 }
@@ -17,7 +17,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const { tipo } = req.query;
 
   if (!tipo) {
-    return res.status(400).json({ error: "tag query parameter is required" });
+    return res.status(400).json({ error: "Missing query parameter: 'tipo'" });
   }
 
   try {
